@@ -22,7 +22,7 @@ CREATE TABLE observations (
   users_id INT NOT NULL,
   students_id INT NOT NULL,
   tasks_id INT NOT NULL,
-  duration INTERVAL NOT NULL
+  duration INT NOT NULL
 );
 
 CREATE TABLE tasks (

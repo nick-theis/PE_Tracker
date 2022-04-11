@@ -9,11 +9,30 @@
   <% tasks.forEach(function(r) {%>
     <button id="<%= r.id %>"
       onClick='javascript:logTask("<%= r.id %>");'><%= r.name %></button>
+    <button id="<%= r.id %>"
+      onClick='javascript:stopTask("<%= r.id %>");'>Stop</button>
   <% }); %>
   <script>
     let currentTaskId = null;
+    let nObsIntervId = null;
+    let seconds = 0; 
 
     const logTask = async function(id) {
+
+      obsTime();
+      
+    };
+
+    function obsTime() {
+      nObsIntervId = setInterval(runTime, 1000);
+    }
+
+    function runTime() {
+      seconds+= 1;
+    }
+
+    const stopTask = async function(id) {
+
       const response = await fetch('/log', {
         method: 'POST',
         headers: {
@@ -24,14 +43,17 @@
           users_id: -1,
           students_id: -1, 
           tasks_id: id,
-          duration: "'+00:00:01'"
+          duration: seconds
         })
       });
+
       const result = await response.json();
       console.log(result);
 
       currentTaskId = id;
+      clearInterval(nObsIntervId);
     };
+
   </script>
 </body>
 </html>
